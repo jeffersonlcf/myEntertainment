@@ -20,17 +20,22 @@ class Imdb
 
         if (!empty($this->data->d)) {
             foreach ($this->data->d as $item){
-                if(!empty($item->y)){
 
-                    $url = route('film.search.store',['q' => $item->id]);
+                $type = $this->getType($item);
+                
+                if($type !== null){
+
+                    $url = route('me.search.store',['q' => $item->id]);
 
                     $result = new Results();
                     $result->id = $item->id;
                     $result->title = $item->l;
                     $result->year = $item->y;
-                    $result->type = $item->q === 'feature' ? 'Film' : $item->q;
+                    $result->type = $type;
+                    $result->typeName = trans('me.type.'.$type);
                     $result->image = $this->getImage($item);
                     $result->setShowUrl($url);
+
                     $results->push($result);
                 }
             }
@@ -69,6 +74,23 @@ class Imdb
             $image = $item->i->imageUrl;
         }
         return $image;
+    }
+
+    private function getType($item) {
+        $type = null;
+        if(!empty($item->q)){
+            switch ($item->q) {
+                case 'short':
+                case 'feature':
+                    $type = 1;
+                    break;
+                case 'TV series':
+                case 'TV mini-series':
+                    $type = 2;
+                    break;
+            }
+        }
+        return $type;
     }
     
 }

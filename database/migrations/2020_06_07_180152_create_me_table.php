@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFilmsTable extends Migration
+class CreateMeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateFilmsTable extends Migration
      */
     public function up()
     {
-        Schema::create('films', function (Blueprint $table) {
+        Schema::create('me', function (Blueprint $table) {
             $table->id();
-            $table->string('imdb_id',20);
+            $table->string('imdb_id',20)->nullable();
             $table->string('title');
             $table->smallInteger('year');
             $table->tinyInteger('type');
@@ -30,6 +30,6 @@ class CreateFilmsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('films');
+        Schema::dropIfExists('me');
     }
 }

@@ -23,9 +23,9 @@ class Results
 
     public function setShowUrl($url)
     {
-        $film = DB::table('films')->where('imdb_id',$this->id)->first();
-        if($film !== null){
-            $url = route('film.show', ['film' => $film->id]);
+        $me = DB::table('me')->where('imdb_id',$this->id)->first();
+        if($me !== null){
+            $url = route('me.show', ['me' => $me->id]);
         }
 
         $this->showUrl = $url;

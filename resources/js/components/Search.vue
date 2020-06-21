@@ -25,7 +25,7 @@
                                     <div>
                                         <a :href="result.showUrl">
                                             <h5>
-                                                {{ result.title }} ({{ result.type }})
+                                                {{ result.title }} ({{ result.typeName }})
                                             </h5>
                                             <p>{{ result.year }}</p>
                                         </a>

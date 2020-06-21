@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Classes\Search\Imdb;
-use App\Film;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
