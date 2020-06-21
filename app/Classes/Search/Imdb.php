@@ -26,6 +26,7 @@ class Imdb
                 if($type !== null){
 
                     $url = route('me.search.store',['q' => $item->id]);
+                    $imageUrl = $this->getImage($item);
 
                     $result = new Results();
                     $result->id = $item->id;
@@ -33,7 +34,7 @@ class Imdb
                     $result->year = $item->y;
                     $result->type = $type;
                     $result->typeName = trans('me.type.'.$type);
-                    $result->image = $this->getImage($item);
+                    $result->setImageUrl($imageUrl);
                     $result->setShowUrl($url);
 
                     $results->push($result);
