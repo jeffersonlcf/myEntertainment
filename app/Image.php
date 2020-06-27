@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
-    public function me()
+    public function imageable()
     {
-        return $this->belongsTo('App\Me');
+        return $this->morphTo();
     }
 }

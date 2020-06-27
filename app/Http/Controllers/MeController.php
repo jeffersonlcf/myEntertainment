@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Image as ImageIntervention;
 use App\Me;
-use App\Image;
-use App\Classes\Search\Imdb;
+use App\Classes\Search\Imdb as ImdbSearch;
+use App\Classes\Files\Image;
+use App\Season;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class MeController extends Controller
 {
@@ -18,7 +17,7 @@ class MeController extends Controller
 
     public function store_from_search(Request $request)
     {
-        $imdb = new Imdb($request);
+        $imdb = new ImdbSearch($request);
        
         $data = $imdb->getResults()->first();
         
@@ -27,48 +26,49 @@ class MeController extends Controller
             ['title' => $data->title, 'year' => $data->year, 'type' => $data->type]
         );
 
-        $this->save_image($me, $data->image);
+        $img = new Image($me, $data->image);
+
+        $img->store();
 
         return redirect()->route('me.show', ['me' => $me->id]);
 
     }
 
-    public function save_image(Me $me, $path){
-
-        $filename = basename($path);
-        $thumbnailImage = ImageIntervention::make($path);
-        $thumbnailPath = 'public/files/thumbnail/'.$me->id.'/';
-        $originalPath = 'public/files/images/'.$me->id.'/';
-
-        if (!Storage::exists($originalPath)) {
-            Storage::makeDirectory($originalPath, 0775, true, true);
-            $thumbnailImage->save(storage_path('app/'.$originalPath.$filename));
-        }
-
-        if (!Storage::exists($thumbnailPath)) {
-            Storage::makeDirectory($thumbnailPath, 0775, true, true);
-            $thumbnailImage->resize(182, 268);
-            $thumbnailImage->save(storage_path('app/'.$thumbnailPath.$filename));
-        }
-
-        $image = new Image();
-
-        $image->main = 1;
-        $image->filename = $filename;
-        $image->extension = 'jpg';
-
-        $me->image()->save($image);
-    }
-
-    public function get_information_from_page($url = null)
+    public function refresh(Me $me)
     {
-        $img = Image::make('foo.jpg')->resize(182, 268);
+        $url = 'https://www.imdb.com/title/'.$me->imdb_id;
 
-        $url = 'https://www.imdb.com/title/tt0133093';
+        libxml_use_internal_errors(true);
 
         $dom = new \DOMDocument();
         $dom->loadHTMLFile($url);
         $finder = new \DOMXPath($dom);
+
+        $seasons_node_list = $finder->query( '//a[starts-with(@href,"/title/'.$me->imdb_id.'/episodes?season")]' );
+
+        for ($i = 1; $i <= $seasons_node_list->length; $i++) {
+            $season = Season::updateOrCreate(
+                ['me_id' => $me->id, 'season' => $i]
+            );
+        }
+
+        return back();
+    }
+
+    public function get_information_from_page($url = null)
+    {
+        //$img = Image::make('foo.jpg')->resize(182, 268);
+
+        $url = 'https://www.imdb.com/title/tt8001788';
+
+        libxml_use_internal_errors(true);
+
+        $dom = new \DOMDocument();
+        $dom->loadHTMLFile($url);
+        $finder = new \DOMXPath($dom);
+
+        $seasons = $finder->query( '//a[starts-with(@href,"/title/tt8001788/episodes?season")]' );
+        return $seasons->length;
 
         $jsonScripts = $finder->query( '//script[@type="application/ld+json"]' );
         $json = trim( $jsonScripts->item(0)->nodeValue );

@@ -11,19 +11,24 @@ class Me extends Model
 
     protected $appends = array('thumbnail');
 
-    public function image()
-    {
-        return $this->hasMany('App\Image');
-    }
-
     public function getThumbnailAttribute()
     {
-        $filename = $this->image()
+        $filename = $this->images()
         ->where('main',true)
         ->first()
         ->filename;
 
         return asset('storage/files/thumbnail/'.$this->id.'/'.$filename);
+    }
+
+    public function images()
+    {
+        return $this->morphMany('App\Image', 'imageable');
+    }
+
+    public function seasons()
+    {
+        return $this->hasMany('App\Season');
     }
 
 }
