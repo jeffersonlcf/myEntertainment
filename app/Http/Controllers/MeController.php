@@ -17,7 +17,7 @@ class MeController extends Controller
         $user = Auth::user();
 
         $ratings = $me->ratings()->where('user_id', $user->id)->first();
-        $like = $ratings->like;
+        $like = $ratings->like ?? null;
         return view('me.show', ['me' => $me, 'like' => $like]);
     }
 

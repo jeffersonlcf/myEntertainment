@@ -1,7 +1,7 @@
 <template>
     <b-button-group>
-        <b-button variant="border-0" @click="toggleLike(true)" :class="{ 'btn-success': like === true }"><span class="icon">✔</span></b-button>
-        <b-button variant="border-0" @click="toggleLike(false)" :class="{ 'btn-danger': like === false }"><span class="icon">✖</span></b-button>
+        <b-button variant="border-0" @click="toggleLike(1)" :class="{ 'btn-success': like === 1 }"><span class="icon">✔</span></b-button>
+        <b-button variant="border-0" @click="toggleLike(0)" :class="{ 'btn-danger': like === 0 }"><span class="icon">✖</span></b-button>
     </b-button-group>
 </template>
 
@@ -12,14 +12,11 @@ export default {
     name: 'Like',
     props: {
         url: String,
-        loadLike: {
-            type: Boolean,
-            default: null,
-        },
+        initialLike: Number,
     },
     data: function() {
         return {
-            like: this.loadLike,
+            like: this.initialLike,
         }
     },
 
