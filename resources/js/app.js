@@ -6,6 +6,8 @@
 
 require('./bootstrap');
 
+import { BButton, BButtonGroup } from 'bootstrap-vue';
+
 window.Vue = require('vue');
 
 /**
@@ -20,6 +22,10 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('search-component', require('./components/Search.vue').default);
+Vue.component('like-component', require('./components/Like.vue').default);
+
+Vue.component('b-button', BButton);
+Vue.component('b-button-group', BButtonGroup);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

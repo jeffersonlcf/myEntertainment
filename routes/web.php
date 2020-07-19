@@ -28,3 +28,5 @@ Route::resource('me', 'MeController')->only(['show']);
 Route::get('/me/search/store', 'MeController@store_from_search')->name('me.search.store');
 Route::get('/me/{me}/refresh', 'MeController@refresh')->name('me.refresh');
 Route::get('/test', 'MeController@get_information_from_page')->name('me.search');
+
+Route::put('/like/{me}', 'MeController@like')->name('like');

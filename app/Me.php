@@ -31,4 +31,9 @@ class Me extends Model
         return $this->hasMany('App\Season');
     }
 
+    public function ratings()
+    {
+        return $this->morphMany('App\Rating', 'rateable');
+    }
+
 }

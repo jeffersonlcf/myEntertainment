@@ -13,6 +13,7 @@
                         <a href="{{ route('me.refresh', ['me' => $me->id]) }}" class="btn-sm btn-primary float-right d-none">Refresh</a>
                         <h5 class="card-title">{{ $me->title . ' (' . trans('me.type.'.$me->type) .')' }} <span class="badge badge-secondary">0</span></h5>
                         <p class="card-text">{{ $me->year }}</p>
+                        <like-component url="{{ route('like', ['me' => $me->id]) }}" :load-like={{ json_encode(boolval($like)) }}></like-component>
                     </div>
                 </div>
             </div>

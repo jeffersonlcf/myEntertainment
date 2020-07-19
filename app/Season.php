@@ -12,4 +12,9 @@ class Season extends Model
     {
         return $this->belongsTo('App\Me');
     }
+
+    public function ratings()
+    {
+        return $this->morphMany('App\Rating', 'rateable');
+    }
 }

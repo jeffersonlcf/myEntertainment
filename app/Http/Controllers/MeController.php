@@ -5,14 +5,20 @@ namespace App\Http\Controllers;
 use App\Me;
 use App\Classes\Search\Imdb as ImdbSearch;
 use App\Classes\Files\Image;
+use App\Rating;
 use App\Season;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class MeController extends Controller
 {
     public function show(Me $me)
     {
-        return view('me.show', ['me' => $me]);
+        $user = Auth::user();
+
+        $ratings = $me->ratings()->where('user_id', $user->id)->first();
+        $like = $ratings->like;
+        return view('me.show', ['me' => $me, 'like' => $like]);
     }
 
     public function store_from_search(Request $request)
@@ -77,5 +83,18 @@ class MeController extends Controller
         $image = str_replace('.jpg', 'UX182_CR0,0,182,268_AL_.jpg', $data->image);
 
         return $data;
+    }
+
+    public function like(Request $request, Me $me)
+    {
+        $rating = Rating::updateOrCreate(
+            ['rateable_type' => 'me', 'rateable_id' => $me->id, 'user_id' => Auth::user()->id],
+            ['like' => $request->like]
+        );
+
+        return response()->json([
+            'message' => 'success',
+            'like' => $rating->like,
+        ]);
     }
 }
