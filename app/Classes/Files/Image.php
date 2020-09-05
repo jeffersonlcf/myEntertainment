@@ -3,8 +3,8 @@
 namespace App\Classes\Files;
 
 use Image as ImageIntervention;
-use App\Image as ImageModel;
-use App\Me;
+use App\Models\Image as ImageModel;
+use App\Models\Me;
 use Illuminate\Support\Facades\Storage;
 
 class Image

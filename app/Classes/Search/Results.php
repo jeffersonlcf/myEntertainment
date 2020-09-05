@@ -2,8 +2,7 @@
 
 namespace App\Classes\Search;
 
-use App\Me;
-use Illuminate\Support\Facades\DB;
+use App\Models\Me;
 
 class Results 
 {
@@ -13,14 +12,6 @@ class Results
     public $type;
     public $image;
     public $showUrl;
-
-    public function __construct($data = null) {
-        $this->id = $data['id'];
-        $this->title = $data['title'];
-        $this->year = $data['year'];
-        $this->type = $data['type'];
-        $this->image = $data['image'];
-    }
 
     public function setShowUrl($url)
     {

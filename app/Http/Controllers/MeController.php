@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Me;
+use App\Models\Me;
 use App\Classes\Search\Imdb as ImdbSearch;
 use App\Classes\Files\Image;
-use App\Rating;
-use App\Season;
+use App\Models\Rating;
+use App\Models\Season;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,11 +10,11 @@ class Season extends Model
 
     public function me()
     {
-        return $this->belongsTo('App\Me');
+        return $this->belongsTo('App\Models\Me');
     }
 
     public function ratings()
     {
-        return $this->morphMany('App\Rating', 'rateable');
+        return $this->morphMany('App\Models\Rating', 'rateable');
     }
 }

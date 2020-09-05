@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,17 +23,17 @@ class Me extends Model
 
     public function images()
     {
-        return $this->morphMany('App\Image', 'imageable');
+        return $this->morphMany('App\Models\Image', 'imageable');
     }
 
     public function seasons()
     {
-        return $this->hasMany('App\Season');
+        return $this->hasMany('App\Models\Season');
     }
 
     public function ratings()
     {
-        return $this->morphMany('App\Rating', 'rateable');
+        return $this->morphMany('App\Models\Rating', 'rateable');
     }
 
 }
