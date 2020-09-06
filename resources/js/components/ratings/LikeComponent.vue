@@ -1,7 +1,7 @@
 <template>
     <b-button-group>
-        <b-button variant="border-0" @click="toggleLike(1)" :class="{ 'btn-success': like === 1 }"><span class="icon">✔</span></b-button>
-        <b-button variant="border-0" @click="toggleLike(0)" :class="{ 'btn-danger': like === 0 }"><span class="icon">✖</span></b-button>
+        <b-button variant="border-0" @click="toggleLike(1)" :class="{ 'btn-success': like === 1 }" size="sm"><span class="icon">✔</span></b-button>
+        <b-button variant="border-0" @click="toggleLike(0)" :class="{ 'btn-danger': like === 0 }" size="sm"><span class="icon">✖</span></b-button>
     </b-button-group>
 </template>
 
@@ -39,6 +39,6 @@ export default {
 
 <style scoped>
 .icon {
-    font-size: 25px;
+    font-size: 15px;
 }
 </style>

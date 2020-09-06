@@ -23,10 +23,18 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
-Route::resource('me', 'MeController')->only(['show']);
+Route::resource('profile', 'ProfileController')->only(['edit','update']);
 
+Route::resource('me', 'MeController')->only(['show']);
 Route::get('/me/search/store', 'MeController@store_from_search')->name('me.search.store');
 Route::get('/me/{me}/refresh', 'MeController@refresh')->name('me.refresh');
-Route::get('/test', 'MeController@get_information_from_page')->name('me.search');
+Route::put('/me/{me}/like', 'MeController@like')->name('me.like');
+Route::put('/me/{me}/emotions', 'MeController@emotions')->name('me.emotions');
+Route::put('/me/{me}/stars', 'MeController@stars')->name('me.stars');
 
-Route::put('/like/{me}', 'MeController@like')->name('like');
+Route::resource('season', 'SeasonController')->only(['show']);
+Route::put('/season/{season}/like', 'SeasonController@like')->name('season.like');
+Route::put('/season/{season}/emotions', 'SeasonController@emotions')->name('season.emotions');
+Route::put('/season/{season}/stars', 'SeasonController@stars')->name('season.stars');
+
+Route::get('/test', 'MeController@get_information_from_page')->name('me.search');

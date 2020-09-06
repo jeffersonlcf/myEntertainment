@@ -9,16 +9,24 @@ use App\Models\Rating;
 use App\Models\Season;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MeController extends Controller
 {
     public function show(Me $me)
     {
+        $like = null;
+        $emotions = [];
+        $stars = 0;
         $user = Auth::user();
+        if(isset($user)){
+            $ratings = $me->ratings()->where('user_id', $user->id)->first();
+            $like = $ratings->like ?? null;
+            $emotions = $ratings->emotions ?? [];
+            $stars = $ratings->stars ?? 0;
+        }
 
-        $ratings = $me->ratings()->where('user_id', $user->id)->first();
-        $like = $ratings->like ?? null;
-        return view('me.show', ['me' => $me, 'like' => $like]);
+        return view('me.show', compact('me', 'like', 'emotions', 'stars'));
     }
 
     public function store_from_search(Request $request)
@@ -27,14 +35,23 @@ class MeController extends Controller
        
         $data = $imdb->getResults()->first();
         
-        $me = Me::updateOrCreate(
-            ['imdb_id' => $data->id],
-            ['title' => $data->title, 'year' => $data->year, 'type' => $data->type]
-        );
+        try {
+            DB::beginTransaction();
 
-        $img = new Image($me, $data->image);
+            $me = Me::updateOrCreate(
+                ['imdb_id' => $data->id],
+                ['title' => $data->title, 'year' => $data->year, 'type' => $data->type]
+            );
 
-        $img->store();
+            $img = new Image($me, $data->image);
+
+            $img->store();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
 
         return redirect()->route('me.show', ['me' => $me->id]);
 
@@ -95,6 +112,32 @@ class MeController extends Controller
         return response()->json([
             'message' => 'success',
             'like' => $rating->like,
+        ]);
+    }
+
+    public function emotions(Request $request, Me $me)
+    {
+        $rating = Rating::updateOrCreate(
+            ['rateable_type' => 'me', 'rateable_id' => $me->id, 'user_id' => Auth::user()->id],
+            ['emotions' => $request->emotions]
+        );
+
+        return response()->json([
+            'message' => 'success',
+            'emotions' => $rating->emotions,
+        ]);
+    }
+
+    public function stars(Request $request, Me $me)
+    {
+        $rating = Rating::updateOrCreate(
+            ['rateable_type' => 'me', 'rateable_id' => $me->id, 'user_id' => Auth::user()->id],
+            ['stars' => $request->stars]
+        );
+
+        return response()->json([
+            'message' => 'success',
+            'stars' => $rating->stars,
         ]);
     }
 }
