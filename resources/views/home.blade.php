@@ -11,7 +11,7 @@
                     <h2>Your recently rated films</h2>
                     <div class="row mb-3">
                     @foreach ($last_rated_films as $rating)
-                        <div class="col-sm-3 d-flex flex-column justify-content-center w-50">
+                        <div class="col-sm-3 d-flex flex-column justify-content-center w-50 mt-2">
                             <a href="{{ route('me.show', ['me' => $rating->rateable->id]) }}">
                                 <figure class="figure">
                                     <img src="{{ $rating->rateable->thumbnail }}" class="figure-img img-fluid rounded" alt="{{ $rating->rateable->title }}">
@@ -25,7 +25,7 @@
                     <h2>Your recently rated series</h2>
                     <div class="row mb-3">
                     @foreach ($last_rated_series as $rating)
-                        <div class="col-sm-3 d-flex flex-column justify-content-center w-50">
+                        <div class="col-sm-3 d-flex flex-column justify-content-center w-50 mt-2">
                             <a href="{{ route('me.show', ['me' => $rating->rateable->id]) }}">
                                 <figure class="figure">
                                     <img src="{{ $rating->rateable->thumbnail }}" class="figure-img img-fluid rounded" alt="{{ $rating->rateable->title }}">
