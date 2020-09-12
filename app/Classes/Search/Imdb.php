@@ -23,7 +23,7 @@ class Imdb
 
                 $type = $this->getType($item);
                 
-                if($type !== null){
+                if($type !== null && isset($item->y)){
 
                     $url = route('me.search.store',['q' => $item->id]);
                     $imageUrl = $this->getImage($item);

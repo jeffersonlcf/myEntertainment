@@ -7,6 +7,11 @@
                     <svg focusable="false" height="20px" viewBox="0 0 20 24" width="20px" xmlns="http://www.w3.org/2000/svg"><path d="M20.49,19l-5.73-5.73C15.53,12.2,16,10.91,16,9.5C16,5.91,13.09,3,9.5,3S3,5.91,3,9.5C3,13.09,5.91,16,9.5,16 c1.41,0,2.7-0.47,3.77-1.24L19,20.49L20.49,19z M5,9.5C5,7.01,7.01,5,9.5,5S14,7.01,14,9.5S11.99,14,9.5,14S5,11.99,5,9.5z"></path></svg>
                 </span>
             </div>
+            <div class="dropdown-menu w-100" :class="{show: loading}">
+                <p class="text-center pt-3">
+                    <font-awesome-icon icon="spinner" pulse size="3x" />
+                </p>
+            </div>
              <div class="dropdown-menu w-100" :class="{show: isActive}">
                 <table class="table table-hover table-borderless">
                     <tbody>
@@ -41,9 +46,16 @@
 </template>
 
 <script>
+
+    // Font Awesome 5
+    import { library } from '@fortawesome/fontawesome-svg-core'
+    import { faSpinner  } from '@fortawesome/free-solid-svg-icons'
+    library.add( faSpinner );
+
     export default {
         data: function() {
             return {
+                loading: false,
                 search: '',
                 isActive: false,
                 results: [],
@@ -56,14 +68,16 @@
         methods: {
             findFilms: function () {
 
+                this.loading = true;
                 clearTimeout(this.timer);
-                this.timer = null;
-                
+                this.timer = 0;
+
                 this.timer = setTimeout(() => {
                     if (this.search === '') {
-                        this.isActive = false;
+                        this.loading = this.isActive = false;
                     } else {
                         axios.get(this.url).then(response => {
+                            this.loading = false;
                             this.results = response.data.results;
                             this.isActive = true;
                         });
