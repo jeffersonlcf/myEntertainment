@@ -3,6 +3,13 @@
 
 // Variables
 @import 'variables';
+@import '~bootswatch/dist/darkly/variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Bootswatch
+@import '~bootswatch/dist/darkly/bootswatch';
+
+@import 'navbar';
+@import 'mixins';
