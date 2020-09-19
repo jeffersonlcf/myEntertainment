@@ -47,6 +47,7 @@
                             </div>
                         </div>
                     </form>
+                    <form action="{{route('verification.send')}}" method="post">@csrf<button type="submit" class="btn btn-primary">Resend</button></form>
                 </div>
             </div>
         </div>

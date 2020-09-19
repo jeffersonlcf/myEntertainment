@@ -69,7 +69,7 @@
                 this.timer = 0;
 
                 this.timer = setTimeout(() => {
-                    if (this.search === '') {
+                    if (this.query === '') {
                         this.loading = this.isActive = false;
                     } else {
                         axios.get(this.url).then(response => {
@@ -91,7 +91,10 @@
         },
         computed: {
             url(){
-                return '/api/search?q=' + this.search;
+                return '/api/search/remote?q=' + this.query;
+            },
+            query(){
+                return this.search.trim();
             }
         } 
     }

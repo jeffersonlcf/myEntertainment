@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/search', 'SearchController@search_remote')->name('search');
+Route::get('/search/local', 'SearchController@search_local')->name('search.local');
+Route::get('/search/remote', 'SearchController@search_remote')->name('search.remote');
