@@ -26,15 +26,32 @@
 </head>
 <body>
     <div id="app">
+
         <nav class="navbar navbar-expand-md navbar-dark shadow-sm">
             @include('layouts.navbar')
         </nav>
-        {{-- <x-alert type="warning">
-            This is a warning alert with <form action="{{route('verification.send')}}" method="post">@csrf<button type="submit" class="alert-link">Resend</button></form> Give it a click if you like.
-        </x-alert> --}}
+        
+        @auth
+        @if(Auth::user()->email_verified_at === null)
+        <x-alert type="warning" :showCloseButton=false>
+            <form action="{{route('verification.send')}}" method="post">
+                @csrf
+                <span>Your email have not been verified yet. Please click </span><button type="submit" class="alert-link btn btn-link p-0 align-baseline">here</button><span> to resend your verification email.</span>
+            </form>
+        </x-alert>
+        @endif
+        @endauth
+
+        @if (session('status'))
+            <x-alert type="{{ session('status') }}">
+                {{ session('message') }}
+            </x-alert>
+        @endif
+        
         <main class="py-4">
             @yield('content')
         </main>
+        
     </div>
 </body>
 </html>

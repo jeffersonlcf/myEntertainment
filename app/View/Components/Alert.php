@@ -21,16 +21,23 @@ class Alert extends Component
     //public $message;
 
     /**
+     * The show close button.
+     *
+     * @var string
+     */
+    public $showCloseButton;
+
+    /**
      * Create the component instance.
      *
      * @param  string  $type
      * @param  string  $message
      * @return void
      */
-    public function __construct($type)
+    public function __construct($type, $showCloseButton = true)
     {
         $this->type = $type;
-        //$this->message = $message;
+        $this->showCloseButton = $showCloseButton;
     }
 
     /**
