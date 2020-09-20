@@ -39,7 +39,7 @@ class MeController extends Controller
             DB::beginTransaction();
 
             $me = Me::updateOrCreate(
-                ['imdb_id' => $data->id],
+                ['imdb_id' => $data->imdbId],
                 ['title' => $data->title, 'year' => $data->year, 'type' => $data->type]
             );
 
